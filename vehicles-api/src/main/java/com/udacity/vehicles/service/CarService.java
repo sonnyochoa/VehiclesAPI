@@ -23,10 +23,7 @@ public class CarService {
     private final CarRepository repository;
 
     public CarService(CarRepository repository, MapsClient mapsClient, PriceClient priceClient) {
-        /**
-         * TODO: Add the Maps and Pricing Web Clients you create
-         *   in `VehiclesApiApplication` as arguments and set them here.
-         */
+
         this.repository = repository;
         this.mapsClient = mapsClient;
         this.priceClient = priceClient;
@@ -52,10 +49,6 @@ public class CarService {
         car.setPrice(price);
 
         /**
-         * TODO: Use the Maps Web client you create in `VehiclesApiApplication`
-         *   to get the address for the vehicle. You should access the location
-         *   from the car object and feed it to the Maps service.
-         * TODO: Set the location of the vehicle, including the address information
          * Note: The Location class file also uses @transient for the address,
          * meaning the Maps service needs to be called each time for the address.
          */
@@ -77,6 +70,7 @@ public class CarService {
                     .map(carToBeUpdated -> {
                         carToBeUpdated.setDetails(car.getDetails());
                         carToBeUpdated.setLocation(car.getLocation());
+                        carToBeUpdated.setCondition(car.getCondition());
                         return repository.save(carToBeUpdated);
                     }).orElseThrow(CarNotFoundException::new);
         }
@@ -89,15 +83,8 @@ public class CarService {
      * @param id the ID number of the car to delete
      */
     public void delete(Long id) {
-        /**
-         * TODO: Find the car by ID from the `repository` if it exists.
-         *   If it does not exist, throw a CarNotFoundException
-         */
-        Car car = repository.findById(id).orElseThrow(CarNotFoundException::new);
 
-        /**
-         * TODO: Delete the car from the repository.
-         */
+        Car car = repository.findById(id).orElseThrow(CarNotFoundException::new);
         repository.delete(car);
 
     }
